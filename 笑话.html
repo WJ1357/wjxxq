@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+    <!-- 输入自定义的名字 -->
+    <div>
+      <label for="customname" id="lbl-customname">请输入姓名：</label>
+      <input id="customname" type="text" placeholder="小伴" />
+    </div>
+
+    <div>
+      <label for="metric">公制</label
+      ><input id="metric" type="radio" name="measure" value="metric" checked />
+      <label for="american">美制</label
+      ><input id="american" type="radio" name="measure" value="american" />
+    </div>
+
+    <div>
+      <button class="randomize">随机生成笑话</button>
+    </div>
+
+    <p class="story"></p>
+
+    <script>
+      // 获取输入框、按钮和显示笑话的段落元素
+      const customName = document.getElementById("customname");
+      const randomize = document.querySelector(".randomize");
+      const story = document.querySelector(".story");
+
+      // 生成随机值的函数
+      function randomValueFromArray(array) {
+        const random = Math.floor(Math.random() * array.length);
+        return array[random];
+      }
+
+      // 定义笑话文本和替换项
+      let storyText =
+        "今天宜出门，:insertx:出门散步。当走到:inserty:门前时，突然就:insertz:。人们都惊呆了，小伴全程目睹但并没有慌，因为:insertx:是一个 小朋友，天气也很差。";
+      let insertX = ["基拉", "自由", "命运"];
+      let insertY = ["凯旋门", "大不列颠", "隍珑"];
+      let insertZ = ["羽化升仙了", "中了一箭", "睡到了第二天"];
+
+      randomize.addEventListener("click", result);
+      function result() {
+        // 初始化新的笑话文本
+        let newStory = storyText;
+        let xItem = randomValueFromArray(insertX);
+        let yItem = randomValueFromArray(insertY);
+        let zItem = randomValueFromArray(insertZ);
+
+        newStory = newStory.replace(":insertx:", xItem);
+        newStory = newStory.replace(":insertx:", xItem); 
+        newStory = newStory.replace(":inserty:", yItem);
+        newStory = newStory.replace(":insertz:", zItem);
+
+        // 根据输入框的值进行替换
+        if (customName.value !== "") {
+          const name = customName.value;
+          newStory = newStory.replace("李雷", name);
+        }
+
+        if (document.getElementById("american").checked) {
+          const weight = Math.round(140 * 2.20462) + " 磅";
+          const temperature = Math.round((35 * 9) / 5 + 32) + " 华氏度";
+          newStory = newStory.replace("35 摄氏度", temperature);
+          newStory = newStory.replace("140 公斤", weight);
+        }
+
+        story.textContent = newStory;
+        story.style.visibility = "visible";
+      }
+    </script>
+  </body>
+</html>

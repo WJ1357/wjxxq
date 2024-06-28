@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <title>猜数字游戏</title>
+  <style>
+  </style>
+</head>
+<body>
+  
+  <h1>猜数字游戏</h1>
+ 
+  <p>我们选择了一个介于1和120之间的随机数，看看你能不能在10次以内猜到，我们会告诉你猜测是太高了还是太低啦！</p>
+  
+  <div class="form">
+    
+    <label for="guessField">Enter a guess: </label>
+    <input type="number" min="1" max="100" required id="guessField" class="guessField">
+    
+    <input type="submit" value="Submit guess" class="guessSubmit">
+  </div>
+
+  <div class="resultParas">
+    
+    <p class="guesses">Previous guesses: </p>
+
+    <p class="lastResult"></p>
+    
+    <p class="lowOrHi"></p>
+  </div>
+
+  <script>
+    // 生成1-120之间的随机数作为答案
+    let randomNumber = Math.floor(Math.random() * 120) + 1;
+    const guesses = document.querySelector('.guesses');
+    const lastResult = document.querySelector('.lastResult');
+    const lowOrHi = document.querySelector('.lowOrHi');
+    const guessSubmit = document.querySelector('.guessSubmit');
+    const guessField = document.querySelector('#guessField');
+    let guessCount = 1;
+
+   
+    function checkGuess() {
+      const userGuess = Number(guessField.value);
+      if (guessCount === 1) {
+        guesses.textContent = 'Previous guesses: ';
+      }
+
+     
+      guesses.textContent += userGuess + ' ';
+
+
+      if (userGuess === randomNumber) {
+        lastResult.textContent = '恭喜你！你猜对了！';
+        lastResult.style.backgroundColor = 'green';
+        // 结束游戏
+        lowOrHi.textContent = '';
+        setGameOver();
+      } else if (guessCount === 10) {
+        lastResult.textContent = '游戏结束。你已经尝试了10次。';
+        lowOrHi.textContent = '';
+        setGameOver();
+      } else {
+        lastResult.textContent = '！错误！';
+        lastResult.style.backgroundColor = 'black';
+        // 根据猜测结果是太高还是太低，给出提示信息
+        if (userGuess < randomNumber) {
+          lowOrHi.textContent = '你最后一次猜测的数字太低了！';
+        } else if (userGuess > randomNumber) {
+          lowOrHi.textContent = '你最后一次猜测的数字太高了！';
+        }
+      }
+
+      guessCount++;
+   
+      guessField.value = '';
+      guessField.focus();
+    }
+
+    // 当提交按钮被点击时，调用checkGuess函数
+    guessSubmit.addEventListener('click', checkGuess);
+
+    // 当游戏结束时，禁用输入框和提交按钮
+    function setGameOver() {
+      guessField.disabled = true;
+      guessSubmit.disabled = true;
+      // 清空输入框
+      guessField.value = '';
+      guessField.focus();
+
+      lastResult.style.backgroundColor = 'white';
+
+      randomNumber = Math.floor(Math.random() * 120) + 1;
+    }
+  </script>
+</body>
+</html>
