@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>您可以自由控制天气</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        select {
+            font-size: 16px;
+            padding: 5px;
+            margin-top: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 这是可供选择的标签 -->
+    <label for="weather">请选择今天的天气</label>
+    <select id="weather">
+        <option value="">==来进行选择吧==</option>
+        <option value="sunny">这是晴天(oﾟ▽ﾟ)o  </option>
+        <option value="rainy">这个是雨天(╯﹏╰)b</option>
+        <option value="snowing">下雪了ヽ(^_−)ﾉ</option>
+        <option value="overcast">阴雨沉沉(ｉДｉ)</option>
+    </select>
+
+    <p></p>
+    <script>
+        // 获取选择框和段落
+        const select = document.querySelector("select");
+        const para = document.querySelector("p");
+
+        select.addEventListener("change", setWeather);
+
+        function setWeather() {
+            // 获取选择的值
+            const choice = select.value;
+
+            // 根据选择的值设置天气描述
+            if (choice === "sunny") {
+                para.textContent = "阳光明媚。带上你的模型，去海滩，或公园，为他拍下每日限定。";
+            } else if (choice === "rainy") {
+                para.textContent = "外面下着雨，不宜出门，可以在家里做自己喜欢的任何事。";
+            } else if (choice === "snowing") {
+                para.textContent = "万里雪飘，大雪纷飞，最好做好保暖，走出家门，感受这来之不易的白色。";
+            } else if (choice === "overcast") {
+                para.textContent = "晦暗的阴云占据了大部分的天空，窗外的世界略显烦闷，建议将空调开到24度";
+            } else {
+                para.textContent = "";
+            }
+        }
+
+    </script>
+</body>
+</html>
