@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>倒计时</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .countdown {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 24px;
+            color: red;
+        }
+
+        #countdown-container div {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown-container">
+        <div class="countdown" id="initial-countdown">倒计时: 10S</div>
+    </div>
+    <div class="message" id="message"></div>
+
+    <script>
+        function startCountdown(duration, container, message) {
+            let timer = duration;
+            const initialFontSize = 48;  // 初始字体大小
+            const interval = setInterval(() => {
+                const seconds = parseInt(timer, 10);
+                const newCountdownElement = document.createElement('div');
+                newCountdownElement.className = 'countdown';
+                newCountdownElement.textContent = `倒计时: ${seconds}S`;
+
+                // 计算当前的字体大小
+                const currentFontSize = initialFontSize * (timer / duration);
+                newCountdownElement.style.fontSize = `${currentFontSize}px`;
+
+                container.appendChild(newCountdownElement);
+
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    message.textContent = "结束也是开始！";
+                }
+            }, 1000);
+        }
+
+        window.onload = () => {
+            const countdownContainer = document.getElementById('countdown-container');
+            const messageElement = document.getElementById('message');
+            const initialCountdown = document.getElementById('initial-countdown');
+            initialCountdown.remove();
+            startCountdown(10, countdownContainer, messageElement);
+        };
+    </script>
+</body>
+</html>
