@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style type="text/css">
+    .calc .panel .digit {
+      float: left;
+    }
+
+    .calc .panel .digit {
+      margin: 0 auto;
+    }
+
+    .calc .panel .digit {
+      text-align: center;
+    }
+
+    .show input {
+      display: none;
+    }
+
+    .show #inputBlock,
+    .show #OutputBlock {
+      position: relative;
+    }
+
+    .show #inputBlock #stack1,
+    .show #OutputBlock #stack2 {
+      position: absolute;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+      content: "";
+      display: table;
+    }
+
+    .clearfix:after {
+      clear: both;
+      overflow: hidden;
+    }
+
+    .calc {
+      width: 250px;
+    }
+
+    .calc .panel .digit {
+      width: 50px;
+      height: 40px;
+      background-color: #e6e6e6;
+      color: black;
+      font-family: 'Microsoft YaHei', Verdana, Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      line-height: 40px;
+    }
+
+    .calc .panel .digit:hover {
+      background-color: #cfcfcf;
+    }
+
+    .show {
+      background-color: #f2f2f2;
+      height: 80px;
+    }
+
+    .show #inputBlock {
+      height: 70px;
+    }
+
+    .show #inputBlock #stack1 {
+      font-family: 'Microsoft YaHei', Verdana, Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      line-height: 75px;
+      bottom: 0px;
+    }
+
+    .show #OutputBlock {
+      height: 30px;
+    }
+
+    .show #OutputBlock #stack2 {
+      bottom: 0px;
+      color: #0066cc;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 计算器 -->
+  <div class="calc">
+    <div class="show">
+      <input type="text" id="formula">
+      <div class="OutputBlock"></div>
+      <div id="inputBlock"><span id="stack1"></span></div>
+    </div>
+    <div class="panel clearfix">
+      <div class="digit">NEG</div>
+      <div class="digit">CE</div>
+      <div class="digit">C</div>
+      <div class="digit">NEW</div>
+      <div class="digit operator">/</div>
+      <div class="digit">PI</div>
+      <div class="digit">7</div>
+      <div class="digit">8</div>
+      <div class="digit">9</div>
+      <div class="digit operator">*</div>
+      <div class="digit">n!</div>
+      <div class="digit">4</div>
+      <div class="digit">5</div>
+      <div class="digit">6</div>
+      <div class="digit operator">-</div>
+      <div class="digit">ANS</div>
+      <div class="digit">1</div>
+      <div class="digit">2</div>
+      <div class="digit">3</div>
+      <div class="digit operator">+</div>
+      <div class="digit">(</div>
+      <div class="digit">)</div>
+      <div class="digit">0</div>
+      <div class="digit">.</div>
+      <div class="digit">=</div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var stack1 = ['0'];
+    var currentOperator = null;
+    var operand1 = null;
+
+    // 获取所有按钮
+    var btns = document.querySelectorAll('.digit');
+
+    // 绑定点击事件
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function(event) {
+        handleButtonClick(event);
+      });
+    }
+
+    function handleButtonClick(event) {
+      var value = event.target.innerHTML;
+
+      if (value == "C" || value == "CE") {
+        init();
+        renderOutput('0');
+      } else if (value == "=") {
+        calculateResult();
+      } else if (isOperator(value)) {
+        setOperator(value);
+      } else {
+        if (stack1.length == 1 && stack1[0] == '0') {
+          stack1.pop();
+        }
+        stack1.push(value);
+        renderOutput(stack1.join(''));
+      }
+    }
+
+    function isOperator(value) {
+      return value == '+' || value == '-' || value == '*' || value == '/';
+    }
+
+    function setOperator(operator) {
+      if (currentOperator != null) {
+        calculateResult();
+      }
+      operand1 = parseFloat(stack1.join(''));
+      currentOperator = operator;
+      stack1 = ['0'];
+      renderOutput(operand1 + ' ' + currentOperator);
+    }
+
+    function calculateResult() {
+      if (currentOperator == null || operand1 == null) return;
+
+      var operand2 = parseFloat(stack1.join(''));
+      var result;
+
+      switch (currentOperator) {
+        case '+':
+          result = operand1 + operand2;
+          break;
+        case '-':
+          result = operand1 - operand2;
+          break;
+        case '*':
+          result = operand1 * operand2;
+          break;
+        case '/':
+          result = operand1 / operand2;
+          break;
+      }
+
+      renderOutput(result);
+      init();
+    }
+
+    function renderOutput(content) {
+      document.querySelector('#stack1').innerHTML = content;
+    }
+
+    function init() {
+      stack1 = ['0'];
+      currentOperator = null;
+      operand1 = null;
+    }
+
+    init();
+  </script>
+</body>
+
+</html>
