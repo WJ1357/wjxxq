@@ -349,3 +349,8 @@ template {
 [hidden] {
   display: none;
 }
+
+.post-item img {
+  width: 100%;
+  height: auto;
+}
